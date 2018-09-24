@@ -9,6 +9,7 @@
   "include": [
     "src/*.ts",
     "src/cls/*.ts",
+    "src/plugins/plugin-bluebird.ts",
     "src/plugins/plugin-connect.ts",
     "src/plugins/plugin-express.ts",
     "src/plugins/plugin-grpc.ts",
