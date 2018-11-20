@@ -32,7 +32,7 @@ export interface TopLevelConfig {
 
 // PluginLoaderConfig extends TraceAgentConfig
 export type NormalizedConfig =
-    (TraceWriterConfig&PluginLoaderConfig&TopLevelConfig)|{enabled: false};
+    ((TraceWriterConfig&PluginLoaderConfig&TopLevelConfig)|{enabled: false});
 
 /**
  * A class that represents automatic tracing.
@@ -114,13 +114,11 @@ export class Tracing implements Component {
       this.disable();
       return;
     }
-    traceWriter.get().initialize((err) => {
-      if (err) {
-        this.logger.error(
-            'StackdriverTracer#start: Disabling the Trace Agent for the',
-            `following reason: ${err.message}`);
-        this.disable();
-      }
+    traceWriter.get().initialize().catch((err) => {
+      this.logger.error(
+          'StackdriverTracer#start: Disabling the Trace Agent for the',
+          `following reason: ${err.message}`);
+      this.disable();
     });
     cls.get().enable();
     this.traceAgent.enable(this.config, this.logger);
